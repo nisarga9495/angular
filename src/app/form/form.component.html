@@ -1,0 +1,198 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.btn {
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    padding: 10px 12px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+    background-color: RoyalBlue;
+}
+  </style>  
+</head>
+
+  <body>
+      <h2>Registration Form !!!</h2><br><br>
+
+<form (ngSubmit)="onSubmit(myForm) ; myForm.reset()" role="form"  style="text-align:center" #myForm="ngForm">
+  <div class="row">
+  <div class="container center_div">
+  <label for="username">First Name</label>
+  <input required #Fname="ngModel" pattern="[a-z]*" [(ngModel)]="fname" name="fname" type="text" minlength="2" class="form-control">
+  <div *ngIf="Fname.errors && (Fname.dirty || Fname.touched)" class="alert alert-danger"> 
+   first name is required
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="container center_div" style="text-align:center"><br>
+  <label for="lastName">Last Name</label>
+  <input  required #Lname="ngModel" pattern="[a-z]*" [(ngModel)]="lname" name="lname" type="text" class="form-control">
+  <div *ngIf="Lname.errors && (Lname.dirty || Lname.touched)" class="alert alert-danger"> 
+   last name is required
+    </div>
+</div>
+  
+
+<div class="container center_div" style="text-align:center"><br>
+  <label for="age">Age</label>
+  
+  <input  required #Age="ngModel" pattern="[0-9]+" [(ngModel)]="age" name="age" type="number" class="form-control">
+  <div *ngIf="Age.errors && (Age.dirty || Age.touched)" class="alert alert-danger"> 
+   Age is required
+    </div>
+    <div *ngIf="Age.errors && (Age.dirty || Age.touched)" class="alert alert-danger"> 
+      do not enter floats
+       </div>
+
+</div>
+
+
+
+<div class="container center_div" style="text-align:center"><br>
+  <label for="gender">Gender</label>
+  <select  class="form-control"  id="sel1" #Gender="ngModel" [(ngModel)]="gender" name="gender">
+      <option value="" disabled selected>Select your option</option>
+    <option value="Female">Female</option>
+    <option value="Male">Male</option>
+
+  </select>
+  
+
+</div>
+
+<div class="container center_div" style="text-align:center"><br>
+  <label for="salary">Salary</label>
+  <input  required #Salary="ngModel" [(ngModel)]="salary" name="salary" type="number" class="form-control">
+  <div *ngIf="Salary.errors && (Salary.dirty || Salary.touched)" class="alert alert-danger"> 
+    Salary is required
+    </div>  
+</div>
+
+
+<div class="container center_div" style="text-align:center"><br>
+  <label for="skill">Skill Set </label>
+  <textarea  required #Skill="ngModel" placeholder="enter comma separated values" [(ngModel)]="skill" name="skill" type="text" class="form-control"></textarea>
+    <div *ngIf="Skill.errors && (Skill.dirty || Skill.touched)" class="alert alert-danger"> 
+      Skills is required
+      </div>  
+</div>
+
+
+</div>
+<div class="row">
+<div class="container center_div" style="text-align:center"> 
+<br><button class="btn btn-primary" [disabled]="!myForm.valid">submit</button> &nbsp;
+
+
+ <input  class="btn btn-primary" type=reset value=reset>
+  
+
+
+</div>
+</div>
+</form>
+ <!--{{d|json}} --> 
+<br>
+
+
+
+
+  <table class="table" align="center">
+    <thead>
+      <tr>
+        <th> First Name</th> &nbsp; &nbsp; &nbsp; 
+        <th> Last Name</th> &nbsp; &nbsp; &nbsp;
+        <th> Age</th> &nbsp; &nbsp; &nbsp;
+        <th> Gender</th> &nbsp; &nbsp; &nbsp;
+        <th> Salary</th> &nbsp; &nbsp; &nbsp;
+        <th> Skill Set</th>&nbsp; &nbsp;
+        <th> Action </th> 
+      </tr>
+    </thead>
+    
+
+      
+        <tbody>
+     <tr *ngFor="let x of tableArray  let i= index">
+        <td>            
+          <input type="text" [(ngModel)]="x.firstname" [disabled]="!x.isEditable" >
+        
+        </td> &nbsp;
+        <td>  
+          <input type="text" [(ngModel)]="x.lastname" [disabled]="!x.isEditable" >
+          </td> &nbsp; &nbsp;
+         <td>  
+          <input type="text" [(ngModel)]="x.Age" [disabled]="!x.isEditable" >
+          </td>  &nbsp; &nbsp;
+        <td> 
+          <input type="text" [(ngModel)]="x.Gender" [disabled]="!x.isEditable" >
+          </td>  &nbsp; &nbsp;
+        <td>   
+          <input type="text" [(ngModel)]="x.Salary" [disabled]="!x.isEditable" >
+
+        </td>  
+        <td>  
+          <input type="text" [(ngModel)]="x.Skill" [disabled]="!x.isEditable" >
+
+        </td>
+
+        <button class="btn" (click)="x.isEditable=!x.isEditable" *ngIf="!x.isEditable" ><i class="fa fa-edit"></i></button>
+        <button *ngIf="x.isEditable" (click)="x.isEditable=!x.isEditable">Save</button>        
+        <button class="btn" type="button" (click)="delete(i)" ><i class="fa fa-trash"></i></button>
+      </tr>
+    </tbody>
+  </table>
+
+  <table  align="left">
+    <thead>
+      <tr>
+        <th> Male </th> &nbsp; &nbsp; &nbsp; 
+      </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let x of male_array">
+
+      <td>  {{x.firstname}} </td>  &nbsp; &nbsp;
+
+    </tbody>
+
+
+</table>
+
+
+<table  align="right">
+  <thead>
+    <tr>
+      <th> Female </th> &nbsp; &nbsp; &nbsp; 
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let x of female_array">
+
+    <td>  {{x.firstname}} </td>  &nbsp; &nbsp;
+
+  </tbody>
+
+</table>
+
+
+</body>
+</html>
+
+
